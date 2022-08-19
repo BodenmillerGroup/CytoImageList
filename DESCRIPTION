@@ -1,0 +1,27 @@
+Package: CytoImageList
+Version: 0.1.0
+Title: S4 class for storing multiple multi-channel images
+Description: 
+
+Authors@R: 
+    c(person("Nils", "Eling", role = c("aut", "cre"), 
+      email = "nils.eling@dqbm.uzh.ch",
+      comment = c(ORCID = "0000-0002-4711-1176")),
+License: GPL (>= 3)
+Depends:
+    R (>= 4.2),
+    EBImage,
+Imports:
+Suggests:
+    BiocStyle,
+    knitr,
+    rmarkdown,
+    markdown,
+    testthat,
+    cytomapper
+biocViews: SingleCell, OneChannel, TwoChannel, DataImport
+VignetteBuilder: knitr
+URL: https://github.com/BodenmillerGroup/CytoImageList
+BugReports: https://github.com/BodenmillerGroup/CytoImageList/issues
+RoxygenNote: 7.2.1
+Encoding: UTF-8
