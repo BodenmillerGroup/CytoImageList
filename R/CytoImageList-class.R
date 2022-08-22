@@ -5,7 +5,7 @@
 #' @importClassesFrom S4Vectors SimpleList
 setClass(
     Class = "CytoImageList",
-    package = "cytomapper",
+    package = "CytoImageList",
     slots = c(int_metadata="list"),
     contains = "SimpleList",
     prototype = prototype(

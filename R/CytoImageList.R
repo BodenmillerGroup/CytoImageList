@@ -65,7 +65,7 @@
 #' \code{\linkS4class{SimpleList}}, for basics functions to handle SimpleList
 #' objects
 #' 
-#' \code{?\link{loadImages}}, for reading images into a CytoImageList
+#' \code{?\link[cytomapper]{loadImages}}, for reading images into a CytoImageList
 #' object
 #' 
 #' \code{?"\link{CytoImageList-naming}"}, for setting and getting image and
@@ -101,12 +101,13 @@
 #'
 #' @docType class
 #'
-#' @importFrom S4Vectors new2 mcols<-
 #'
 #' @export
 #' @importFrom BiocParallel bplapply SerialParam MulticoreParam
 #' @importFrom EBImage Image imageData
 #' @importFrom DelayedArray DelayedArray
+#' @importFrom HDF5Array writeHDF5Array
+#' @importFrom S4Vectors new2 mcols<- mcols
 CytoImageList <- function(..., on_disk = FALSE, h5FilesPath = NULL,
                             BPPARAM = SerialParam()){
     

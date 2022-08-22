@@ -51,10 +51,15 @@ measurements.
 Pixel-level intensities for all 5 markers (5 channels) are stored in the
 `pancreasImages` object. Entries to the `CytoImageList` object and the rownames
 of `elementMetadata` match: E34_imc, G01_imc, and J02_imc. The `elementMetadata` slot
-(accesible via the `mcols()` function) contains the image identifiers.
+(accessible via the `mcols()` function) contains the image identifiers.
+
+```{r}
+data(pancreasImages)
+data(pancreasMasks)
+```
 
 ```{r pancreasImages}
-pancreasImages
+library(S4Vectors)
 mcols(pancreasImages)
 channelNames(pancreasImages)
 imageData(pancreasImages[[1]])[1:15,1:5,1]

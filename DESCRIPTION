@@ -2,16 +2,24 @@ Package: CytoImageList
 Version: 0.1.0
 Title: S4 class for storing multiple multi-channel images
 Description: 
-
+    This package defines an S4 class for storing single- and multi-channel 
+    images. It allows storing images in memory or on disk. The package further
+    provides functions for image extraction and replacement as well as 
+    getting and setting channels. 
 Authors@R: 
     c(person("Nils", "Eling", role = c("aut", "cre"), 
       email = "nils.eling@dqbm.uzh.ch",
-      comment = c(ORCID = "0000-0002-4711-1176")),
+      comment = c(ORCID = "0000-0002-4711-1176")))
 License: GPL (>= 3)
 Depends:
     R (>= 4.2),
     EBImage,
 Imports:
+    BiocParallel,
+    DelayedArray, 
+    HDF5Array,
+    methods,
+    S4Vectors
 Suggests:
     BiocStyle,
     knitr,
