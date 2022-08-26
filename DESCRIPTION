@@ -1,5 +1,5 @@
 Package: CytoImageList
-Version: 0.1.0
+Version: 0.1.1
 Title: S4 class for storing multiple single- or multi-channel images
 Description: 
     Highly multiplexed imaging measures the abundance of biomolecules in tissues
