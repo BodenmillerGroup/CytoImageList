@@ -15,8 +15,8 @@ Its official package page can be found here: [https://bioconductor.org/packages/
 
 | Bioc branch | Checks |
 |:-----------:|:------:|
-| Release     |[![build-check-release](https://github.com/BodenmillerGroup/CytoImageList/workflows/build-checks-release/badge.svg)](https://github.com/BodenmillerGroup/cytomapper/actions?query=workflow%3Abuild-checks-release)|
-| Devel       |[![build-check-devel](https://github.com/BodenmillerGroup/CytoImageList/workflows/build-checks-devel/badge.svg)](https://github.com/BodenmillerGroup/cytomapper/actions?query=workflow%3Abuild-checks-devel)|
+| Release     |[![build-check-release](https://github.com/BodenmillerGroup/CytoImageList/workflows/build-checks-release/badge.svg)](https://github.com/BodenmillerGroup/CytoImageList/actions?query=workflow%3Abuild-checks-release)|
+| Devel       |[![build-check-devel](https://github.com/BodenmillerGroup/CytoImageList/workflows/build-checks-devel/badge.svg)](https://github.com/BodenmillerGroup/CytoImageList/actions?query=workflow%3Abuild-checks-devel)|
 
 
 ## Introduction
