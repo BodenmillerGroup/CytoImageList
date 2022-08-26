@@ -32,7 +32,7 @@ jobs:
           
       - name: Install system dependecies
         run: |
-          brew install harfbuzz fribidi cairo xquartz imagemagick gdal pkg-config proj
+          brew install cairo 
 
       - name: Install dependencies
         run: |

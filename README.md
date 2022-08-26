@@ -1,8 +1,8 @@
 # CytoImageList
 
 <!-- badges: start -->
-[![codecov](https://codecov.io/gh/BodenmillerGroup/CytoImageList/branch/master/graph/badge.svg)](https://codecov.io/gh/BodenmillerGroup/CytoImageList)
-[![docs](https://github.com/BodenmillerGroup/CytoImageList/workflows/docs/badge.svg?branch=master)](https://github.com/BodenmillerGroup/CytoImageList/actions?query=workflow%3Adocs)
+[![codecov](https://codecov.io/gh/BodenmillerGroup/CytoImageList/branch/main/graph/badge.svg)](https://codecov.io/gh/BodenmillerGroup/CytoImageList)
+[![docs](https://github.com/BodenmillerGroup/CytoImageList/workflows/docs/badge.svg?branch=main)](https://github.com/BodenmillerGroup/CytoImageList/actions?query=workflow%3Adocs)
 <!-- badges: end -->
 
 **Of note: this package is under development**
