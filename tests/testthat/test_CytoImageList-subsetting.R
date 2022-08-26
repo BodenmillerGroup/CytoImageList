@@ -1,5 +1,6 @@
 test_that("Coercion works on CytoImageList object.", {
-  data("pancreasImages")
+    library(cytomapper)
+    data("pancreasImages")
 
   expect_silent(test.list1 <- as.list(pancreasImages))
 
@@ -24,7 +25,8 @@ test_that("Coercion works on CytoImageList object.", {
 })
 
 test_that("Merging works on CytoImageList object.", {
-  data("pancreasImages")
+    library(cytomapper)
+    data("pancreasImages")
   # Merging
   ## Should work
   expect_silent(test.list <- c(pancreasImages[c(1,3)], pancreasImages[2]))
@@ -67,6 +69,7 @@ test_that("Merging works on CytoImageList object.", {
 })
 
 test_that("General operations work on CytoImageList object.", {
+    library(cytomapper)
     data("pancreasImages")
   # Subsetting
   ## Getters
@@ -128,7 +131,8 @@ test_that("General operations work on CytoImageList object.", {
 })
 
 test_that("Custom accessors work on CytoImageList object.", {
-  data("pancreasImages")
+    library(cytomapper)
+    data("pancreasImages")
   # Accessors
   ## getImages
   ### Should work

@@ -22,6 +22,7 @@ test_that("Images can be loaded into CytoImageList object.", {
 })
 
 test_that("Show function works.", {
+    library(cytomapper)
     data(pancreasImages)
     
     test <- capture.output(show(pancreasImages))

@@ -33,6 +33,7 @@
 #' }
 #'
 #' @examples
+#' library(cytomapper)
 #' data("pancreasImages")
 #'
 #' # Get channel and image names

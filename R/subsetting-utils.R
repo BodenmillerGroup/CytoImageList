@@ -33,6 +33,7 @@
 #' \item{\code{setImages(x, i) <- value}}{Replaces the image(s) indicated by
 #' \code{i} of the CytoImageList object \code{x} with \code{value}. For this,
 #' \code{value} needs to have the same length as \code{i}}
+#' \item{\code{x[[i]] <- value}}{TODO: write docs.}
 #' }
 #'
 #' These setter and getter functions are the recommended way of extracting and
@@ -92,6 +93,7 @@
 #' @return A CytoImageList object
 #'
 #' @examples
+#' library(cytomapper)
 #' data("pancreasImages")
 #'
 #' # Get images

@@ -1,5 +1,6 @@
 test_that("On disk: Coercion works on CytoImageList object.", {
-  data("pancreasImages")
+    library(cytomapper)
+    data("pancreasImages")
   cur_path <- tempdir()
   on.exit(unlink(cur_path))
     
@@ -173,7 +174,8 @@ test_that("On disk: General operations work on CytoImageList object.", {
 })
 
 test_that("On disk: Custom accessors work on CytoImageList object.", {
-  data("pancreasImages")
+    library(cytomapper)
+    data("pancreasImages")
   cur_path <- tempdir()
   on.exit(unlink(cur_path))
     

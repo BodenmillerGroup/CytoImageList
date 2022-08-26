@@ -1,5 +1,5 @@
 test_that("On disk: Images can be loaded into CytoImageList object.", {
-    
+  library(cytomapper)    
   data("pancreasImages")
     
   files <- list.files(system.file("extdata", package = "cytomapper"),
@@ -171,6 +171,7 @@ test_that("On disk: Images can be loaded into CytoImageList object.", {
 })
 
 test_that("On disk: Show function works.", {
+    library(cytomapper)
     data(pancreasImages)
     
     cur_path <- tempdir()

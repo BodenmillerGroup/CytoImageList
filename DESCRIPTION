@@ -1,25 +1,31 @@
 Package: CytoImageList
 Version: 0.1.0
-Title: S4 class for storing multiple multi-channel images
+Title: S4 class for storing multiple single- or multi-channel images
 Description: 
-    This package defines an S4 class for storing single- and multi-channel 
-    images. It allows storing images in memory or on disk. The package further
-    provides functions for image extraction and replacement as well as 
-    getting and setting channels. 
+    Highly multiplexed imaging measures the abundance of biomolecules in tissues
+    and generates multi-channel (>4) images encoding abundance levels as pixel
+    intensities. Most commonly, color images are stored as 3-channel RGB or
+    4-channel RGBA images. In contrast, the `CytoImageList` S4 class stores 
+    multi-channel images in the format xyc where x and y are the physical 
+    dimensions of the images and c the number of channels. Each channel is 
+    stored as grayscale array. The package further provides getter and setter 
+    functions for assessing images and channels and functionality for
+    merging channels.
 Authors@R: 
     c(person("Nils", "Eling", role = c("aut", "cre"), 
       email = "nils.eling@dqbm.uzh.ch",
       comment = c(ORCID = "0000-0002-4711-1176")))
-License: GPL (>= 3)
+License: GPL (>= 2)
 Depends:
     R (>= 4.2),
     EBImage,
+    methods
 Imports:
     BiocParallel,
     DelayedArray, 
     HDF5Array,
-    methods,
-    S4Vectors
+    S4Vectors,
+    utils
 Suggests:
     BiocStyle,
     knitr,
@@ -27,7 +33,7 @@ Suggests:
     markdown,
     testthat,
     cytomapper
-biocViews: SingleCell, OneChannel, TwoChannel, DataImport
+biocViews: OneChannel, TwoChannel, MultiChannel, DataImport
 VignetteBuilder: knitr
 URL: https://github.com/BodenmillerGroup/CytoImageList
 BugReports: https://github.com/BodenmillerGroup/CytoImageList/issues

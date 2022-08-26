@@ -7,7 +7,7 @@
 
 **Of note: this package is under development**
 
-R/Bioconductor package to spatially visualize pixel- and cell-level information obtained from highly multiplexed imaging.
+S4 class for storing multiple single- and multi-channel images in R.
 
 Its official package page can be found here: [https://bioconductor.org/packages/CytoImageList](https://bioconductor.org/packages/CytoImageList)
 
@@ -50,8 +50,6 @@ To load the package in your R session, type the following:
 ```r
 library(CytoImageList)
 ```
-
-## Functionality
 
 
 ## Citation

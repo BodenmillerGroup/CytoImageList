@@ -1,5 +1,6 @@
 test_that("Image and channel names can be extracted and set.", {
-  data("pancreasImages")
+    library(cytomapper)
+    data("pancreasImages")
   cur_Images <- pancreasImages
 
   # Standard calls - CytoImageList

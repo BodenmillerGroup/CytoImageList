@@ -1,9 +1,9 @@
 #' S4 class for list of images
 #'
-#' This class facilitates the handling of multiple one- or multi-channel images.
-#' It inherits from \code{\linkS4class{SimpleList}} setting
-#' \code{elementType="Image"}. Therefore, each slot contains an either one- or
-#' multi-dimensional array in form of an \code{\linkS4class{Image}} object.
+#' This class facilitates the handling of multiple single- or multi-channel
+#' images. It inherits from \code{\linkS4class{SimpleList}} storing
+#' \code{\linkS4class{Image}}, \code{\linkS4class{DelayedArray}} or
+#' \code{\linkS4class{HDF5Array}} objects.
 #'
 #' @param ... A list of images (or coercible to a list) or individual images
 #' @param on_disk Logical indicating if images in form of
@@ -80,15 +80,15 @@
 #' # Creation of CytoImageList
 #' u <- matrix(rbinom(100, 10, 0.5), ncol=10, nrow=10)
 #' v <- matrix(rbinom(100, 10, 0.5), ncol=10, nrow=10)
-#' IL1 <- CytoImageList(image1 = Image(u), image2 = Image(v))
+#' CIL <- CytoImageList(image1 = Image(u), image2 = Image(v))
 #'
 #' # Coercion
-#' as.list(IL1)
-#' as(IL1, "SimpleList")
+#' as.list(CIL)
+#' as(CIL, "SimpleList")
 #' as(list(image1 = Image(u), image2 = Image(v)), "CytoImageList")
 #' 
 #' # On disk representation
-#' IL1 <- CytoImageList(image1 = Image(u), image2 = Image(v),
+#' CIL <- CytoImageList(image1 = Image(u), image2 = Image(v),
 #'                      on_disk = TRUE, 
 #'                      h5FilesPath = HDF5Array::getHDF5DumpDir())
 #'
@@ -100,7 +100,6 @@
 #' @author Nils Eling (\email{nils.eling@@dqbm.uzh.ch})
 #'
 #' @docType class
-#'
 #'
 #' @export
 #' @importFrom BiocParallel bplapply SerialParam MulticoreParam
@@ -190,7 +189,6 @@ CytoImageList <- function(..., on_disk = FALSE, h5FilesPath = NULL,
 }
 
 # Coercion from list
-#' @exportMethod coerce
 #' @importFrom DelayedArray seed path
 setAs("list", "CytoImageList", function(from) {
     
@@ -208,7 +206,6 @@ setAs("list", "CytoImageList", function(from) {
 })
 
 # Coercion from ANY
-#' @exportMethod coerce
 #' @importFrom DelayedArray seed path
 setAs("ANY", "CytoImageList", function(from) {
     
@@ -226,7 +223,6 @@ setAs("ANY", "CytoImageList", function(from) {
 })
 
 # Expanded show method
-#' @exportMethod show
 setMethod("show", signature = signature(object="CytoImageList"),
     definition = function(object){
         lo <- length(object)

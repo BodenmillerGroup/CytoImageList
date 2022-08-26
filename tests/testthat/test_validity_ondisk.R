@@ -1,4 +1,5 @@
 test_that("On disk: Image setting validity check is correct.", {
+    library(cytomapper)
     data("pancreasImages")
     
     cur_path <- tempdir()

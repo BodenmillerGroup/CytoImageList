@@ -1,4 +1,5 @@
 test_that("Image setting validity check is correct.", {
+    library(cytomapper)
     data("pancreasImages")
     
     # Error

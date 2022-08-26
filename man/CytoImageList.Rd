@@ -37,10 +37,10 @@ multiple cores for parallelised processing.}
 A CytoImageList object
 }
 \description{
-This class facilitates the handling of multiple one- or multi-channel images.
-It inherits from \code{\linkS4class{SimpleList}} setting
-\code{elementType="Image"}. Therefore, each slot contains an either one- or
-multi-dimensional array in form of an \code{\linkS4class{Image}} object.
+This class facilitates the handling of multiple single- or multi-channel
+images. It inherits from \code{\linkS4class{SimpleList}} storing
+\code{\linkS4class{Image}}, \code{\linkS4class{DelayedArray}} or
+\code{\linkS4class{HDF5Array}} objects.
 }
 \details{
 Similar to the \code{\linkS4class{Image}} class, the first two
@@ -96,15 +96,15 @@ images are stored on disk. To convert back to an in-memory
 # Creation of CytoImageList
 u <- matrix(rbinom(100, 10, 0.5), ncol=10, nrow=10)
 v <- matrix(rbinom(100, 10, 0.5), ncol=10, nrow=10)
-IL1 <- CytoImageList(image1 = Image(u), image2 = Image(v))
+CIL <- CytoImageList(image1 = Image(u), image2 = Image(v))
 
 # Coercion
-as.list(IL1)
-as(IL1, "SimpleList")
+as.list(CIL)
+as(CIL, "SimpleList")
 as(list(image1 = Image(u), image2 = Image(v)), "CytoImageList")
 
 # On disk representation
-IL1 <- CytoImageList(image1 = Image(u), image2 = Image(v),
+CIL <- CytoImageList(image1 = Image(u), image2 = Image(v),
                      on_disk = TRUE, 
                      h5FilesPath = HDF5Array::getHDF5DumpDir())
 
