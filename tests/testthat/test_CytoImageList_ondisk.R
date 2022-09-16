@@ -155,6 +155,15 @@ test_that("On disk: Images can be loaded into CytoImageList object.", {
   expect_true(file.remove(file.path(cur_path, "J02_imc.h5")))
 
   # Should not work
+  expect_silent(cur_ImageList <- CytoImageList(pancreasImages, on_disk = TRUE, 
+                                               h5FilesPath = cur_path))                                             
+  cur_list <- as.list(cur_ImageList)
+  names(cur_list) <- NULL
+  
+  expect_error(CytoImageList(cur_list, on_disk = FALSE),
+               regexp = paste0("Please specify the names of the images"),
+               fixed = TRUE)
+  
   cur_list <- lapply(files, readImage)
   expect_error(cur_ImageList <- CytoImageList(cur_list, on_disk = TRUE),
                regexp = paste0("Please specify the names of the images"),
@@ -191,7 +200,7 @@ test_that("On disk: Show function works.", {
     expect_silent(cur_ImageList <- CytoImageList(pancreasMasks, on_disk = TRUE, 
                                                  h5FilesPath = cur_path))
     
-    test <- capture.output(show(pancreasMasks))
+    test <- capture.output(show(cur_ImageList))
     expect_length(test, 3)
     expect_equal(test[1], "CytoImageList containing 3 image(s)")
     expect_equal(test[2], "names(3): E34_mask G01_mask J02_mask ")

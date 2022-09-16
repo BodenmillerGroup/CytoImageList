@@ -2,26 +2,26 @@ test_that("Coercion works on CytoImageList object.", {
     library(cytomapper)
     data("pancreasImages")
 
-  expect_silent(test.list1 <- as.list(pancreasImages))
+    expect_silent(test.list1 <- as.list(pancreasImages))
 
-  expect_silent(test.list2 <- as(pancreasImages, "List"))
-  expect_identical(mcols(test.list2), mcols(pancreasImages))
-  expect_identical(test.list2[[1]], pancreasImages[[1]])
+    expect_silent(test.list2 <- as(pancreasImages, "List"))
+    expect_identical(mcols(test.list2), mcols(pancreasImages))
+    expect_identical(test.list2[[1]], pancreasImages[[1]])
 
-  expect_silent(test.list3 <- as(pancreasImages, "SimpleList"))
-  expect_identical(mcols(test.list3), mcols(pancreasImages))
-  expect_identical(test.list3[[1]], pancreasImages[[1]])
+    expect_silent(test.list3 <- as(pancreasImages, "SimpleList"))
+    expect_identical(mcols(test.list3), mcols(pancreasImages))
+    expect_identical(test.list3[[1]], pancreasImages[[1]])
 
-  expect_silent(test.list <- as(test.list1, "CytoImageList"))
-  expect_true(is.null(mcols(test.list)))
+    expect_silent(test.list <- as(test.list1, "CytoImageList"))
+    expect_true(is.null(mcols(test.list)))
 
-  expect_silent(test.list <- as(test.list2, "CytoImageList"))
-  expect_identical(mcols(test.list2), mcols(test.list))
-  expect_identical(test.list2[[1]], test.list[[1]])
+    expect_silent(test.list <- as(test.list2, "CytoImageList"))
+    expect_identical(mcols(test.list2), mcols(test.list))
+    expect_identical(test.list2[[1]], test.list[[1]])
 
-  expect_silent(test.list <- as(test.list3, "CytoImageList"))
-  expect_identical(mcols(test.list3), mcols(test.list))
-  expect_identical(test.list3[[1]], test.list[[1]])
+    expect_silent(test.list <- as(test.list3, "CytoImageList"))
+    expect_identical(mcols(test.list3), mcols(test.list))
+    expect_identical(test.list3[[1]], test.list[[1]])
 })
 
 test_that("Merging works on CytoImageList object.", {

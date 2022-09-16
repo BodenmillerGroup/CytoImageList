@@ -11,6 +11,7 @@
 \usage{
 CytoImageList(
   ...,
+  channelData = NULL,
   on_disk = FALSE,
   h5FilesPath = NULL,
   BPPARAM = SerialParam()

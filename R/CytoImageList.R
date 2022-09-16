@@ -107,20 +107,19 @@
 #' @importFrom DelayedArray DelayedArray
 #' @importFrom HDF5Array writeHDF5Array
 #' @importFrom S4Vectors new2 mcols<- mcols
-CytoImageList <- function(..., on_disk = FALSE, h5FilesPath = NULL,
+CytoImageList <- function(..., channelData = NULL,
+                            on_disk = FALSE, h5FilesPath = NULL,
                             BPPARAM = SerialParam()){
     
     args <- list(...)
     
-    if (length(args) == 1L &&
-        methods::extends(class(args[[1L]]), "list")){
+    if (length(args) == 1L && is(args[[1L]], "list")){
         args <- args[[1]]
     }
     
-    if (length(args) == 1L &&
-        methods::extends(class(args[[1L]]), "SimpleList")){
+    if (length(args) == 1L && is(args[[1L]], "SimpleList")){
         
-        # Make sure mcols are transfered
+        # Make sure mcols are transferred
         cur_meta <- mcols(args[[1]])
         
         args <- as.list(args[[1]])
@@ -163,12 +162,13 @@ CytoImageList <- function(..., on_disk = FALSE, h5FilesPath = NULL,
     } else {
         cur_class <- lapply(args, class)
         
-        if (all(cur_class == "HDF5Array" | cur_class == "HDF5Matrix" |
-                cur_class == "DelayedArray" | cur_class == "DelayedMatrix")) {
+        if (all(cur_class %in% c("HDF5Array", "HDF5Matrix", 
+                                 "DelayedArray", "DelayedMatrix"))) {
             
             if (is.null(names(args))){
                 stop("Please specify the names of the images.")
             }
+            
             cur_names <- names(args)
             args <- bplapply(names(args), function(y){
                 Image(as.array(args[[y]]))
@@ -178,7 +178,17 @@ CytoImageList <- function(..., on_disk = FALSE, h5FilesPath = NULL,
         
     }
     
-    x <- S4Vectors::new2("CytoImageList", listData = args)
+    if (is.null(channelData)) {
+        nc <- dim(args[[1]])[3]
+        if (is.na(nc)) {
+            nc <- 1
+        }
+        channelData <- new("DFrame", nrows=nc)
+    }
+    
+    x <- S4Vectors::new2("CytoImageList", 
+                         listData = args,
+                         channelData = channelData)
     
     # Store metadata again
     if (exists("cur_meta") && !is.null(cur_meta)) {

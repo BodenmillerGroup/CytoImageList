@@ -11,6 +11,14 @@ setGeneric("channelNames<-",
     function(x, value) standardGeneric("channelNames<-"))
 
 #' @export
+setGeneric("channelData", 
+           function(x) standardGeneric("channelData"))
+
+#' @export
+setGeneric("channelData<-",
+           function(x, value) standardGeneric("channelData<-"))
+
+#' @export
 setGeneric("getImages",
     function(x, i) standardGeneric("getImages"))
 
@@ -25,6 +33,14 @@ setGeneric("getChannels",
 #' @export
 setGeneric("setChannels<-",
     function(x, i, value) standardGeneric("setChannels<-"))
+
+#' @export
+setGeneric("int_metadata",
+           function(x) standardGeneric("int_metadata"))
+
+#' @export
+setGeneric("int_metadata<-",
+           function(x, value) standardGeneric("int_metadata<-"))
 
 
 

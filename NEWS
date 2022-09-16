@@ -5,3 +5,7 @@ Changes in version 0.1.0 (2022-08-19):
 Changes in version 0.1.1 (2022-08-26):
 
 + Adjusted documentation and unit tests
+
+Changes in version 0.1.2 (2022-09-15):
+
++ Added the channelData slot

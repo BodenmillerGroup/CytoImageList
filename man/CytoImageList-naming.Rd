@@ -24,8 +24,24 @@ the same length as the number of channels in the images.
 \item{\code{channelNames(x)}}{Returns the names of all channels stored in
 \code{x}}
 \item{\code{channelNames(x) <- value}}{Replaces the channel names of
-\code{x} with \code{values}. For this, \code{value} needs to have the same
+\code{x} with \code{value}. For this, \code{value} needs to have the same
 length as the number of channels in \code{x}}
+}
+}
+
+\section{Setting and getting the channel data}{
+
+\code{x} is a \linkS4class{CytoImageList}
+object containing images with one or multiple channels. The 
+\code{channelData} getter/setter function accesses channel-specific
+metadata.
+\describe{
+\item{\code{channelData(x)}}{Returns a \code{DataFrame} storing the
+channel-specific metadata stored in \code{x}}
+\item{\code{channelData(x) <- value}}{Replaces the channel metdata of
+\code{x} with \code{value}. For this, \code{value} needs to have the same
+number of rows as the number of channels in \code{x} and need to be 
+coercible to a \code{DataFrame}.}
 }
 }
 
@@ -54,6 +70,10 @@ names(pancreasImages)
 # Set channel and image names
 channelNames(pancreasImages) <- paste0("marker", 1:5)
 names(pancreasImages) <- paste0("image", 1:3)
+
+# Set and get channel metadata
+channelData(pancreasImages) <- DataFrame(channel = paste0("channel", 1:5))
+channelData(pancreasImages)
 
 }
 \author{
