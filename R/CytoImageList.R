@@ -125,6 +125,14 @@ CytoImageList <- function(..., channelData = NULL,
         args <- as.list(args[[1]])
     }
     
+    if (length(args) == 1L && is(args[[1L]], "CytoImageList")){
+        
+        cur_meta <- mcols(args[[1]])
+        cur_channelData <- channelData(args)
+        
+        args <- as.list(args[[1]])
+    }
+    
     if (on_disk) {
         
         cur_class <- lapply(args, class)
@@ -178,12 +186,19 @@ CytoImageList <- function(..., channelData = NULL,
         
     }
     
-    if (is.null(channelData)) {
+    if (exists("cur_channelData")) {
+        channelData <- cur_channelData
+    } else if (is.null(channelData)) {
         nc <- dim(args[[1]])[3]
         if (is.na(nc)) {
-            nc <- 1
+            nc <- 1L
+        } else {
+            cur_channelNames <- dimnames(args[[1]])[[3]]
         }
         channelData <- new("DFrame", nrows=nc)
+        if (exists("cur_channelNames")) {
+            rownames(channelData) <- cur_channelNames
+        }
     }
     
     x <- S4Vectors::new2("CytoImageList", 

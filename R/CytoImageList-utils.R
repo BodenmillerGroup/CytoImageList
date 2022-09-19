@@ -97,14 +97,14 @@ setReplaceMethod("channelNames",
     if (is(x[[1]], "Image")) {
         # Image needs to be expanded to store channel names
         if(length(dim(x[[1]])) == 2L){
-            x <- S4Vectors::endoapply(x, function(y){
+            x@listData <- lapply(x, function(y){
                 cur_Image <- Image(y, dim = c(dim(y)[1], dim(y)[2], 1))
                 dimnames(cur_Image) <- c(dimnames(y), NULL)
                 return(cur_Image)
             })
         }
 
-        x <- S4Vectors::endoapply(x, function(y){
+        x@listData <- lapply(x, function(y){
             if (is.null(value)) {
                 dimnames(y)[[3]] <- NULL
             } else {
@@ -132,6 +132,8 @@ setReplaceMethod("channelNames",
             return(y)
         })
     }
+        
+    rownames(channelData(x)) <- as.character(value)
 
     validObject(x)
 
@@ -256,9 +258,19 @@ setMethod("updateObject", "CytoImageList", function(object) {
     old.ver <- int_metadata(object)$version
     old.pkg <- attr(class(object), "package")
     
+    on_disk <- FALSE
+    
     if (old.pkg == "cytomapper") {
-        object <- CytoImageList(object)
-        int_metadata(object)$version <- packageVersion("cytomapper")
+        
+        cur_class <- lapply(object, class)
+        
+        if (all(cur_class %in% c("HDF5Array", "HDF5Matrix", 
+                                 "DelayedArray", "DelayedMatrix"))) {
+            on_disk <- TRUE
+        }
+        
+        object <- CytoImageList(object, on_disk = on_disk)
+        int_metadata(object)$version <- packageVersion("CytoImageList")
     }
     
     callNextMethod()

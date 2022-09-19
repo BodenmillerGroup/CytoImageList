@@ -239,7 +239,7 @@ setMethod("getChannels",
         if(length(dim(x[[1]])) >= 3){
             
             if (is(x[[1]], "Image")) {
-                x <- S4Vectors::endoapply(x, function(y){
+                x@listData <- lapply(x, function(y){
                     y[,,i,drop=FALSE]
                 })
             } else {
@@ -254,6 +254,8 @@ setMethod("getChannels",
                         "channels must be named or 'i' needs to be 1."))
             }
         }
+        
+        channelData(x) <- channelData(x)[i,]
 
         validObject(x)
 

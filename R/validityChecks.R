@@ -10,33 +10,32 @@
 
     # If i is not character, both x and value need to be named,
     # or both x and value need to be unnamed
-    error <- c()
     if(!is.null(value)){
         if(!is.character(i)){
             if(is.null(names(x))){
                 if(is(value, "CytoImageList") && !is.null(names(value))){
-                    error <- paste("Cannot merge named and",
-                                    "unnamed CytoImageList object.")
+                    stop("Cannot merge named and unnamed CytoImageList object.")
                 }
             } else {
                 if(is(value, "Image_OR_DelayedArray")){
-                    error <- "Cannot set Image object to named CytoImageList."
+                    stop("Cannot set Image object to named CytoImageList.")
                 } else if(is.null(names(value))){
-                    error <- paste("Cannot merge named and",
-                                    "unnamed CytoImageList object.")
+                    stop("Cannot merge named and unnamed CytoImageList object.")
                 }
             }
         } else if (is.character(i)) {
             if(is.null(names(x))){
-                error <- paste("'i' is of type character. \n",
+                stop("'i' is of type character. \n",
                 "This setting is only allowed for named CytoImageList objects.")
             }
         }
     }
-
-    if(length(error > 0L)){
-        stop("Invalid replacement operation: \n",
-            error)
+    
+    # Check that channelData matc
+    if (is(value, "CytoImageList") && 
+        !is.null(channelData(value)) &&
+        identical(channelData(value), channelData(x))) {
+        stop("channelData needs to match between 'x' and 'value'")
     }
 }
 

@@ -293,6 +293,16 @@ CLI
 CLI$image1
 ```
 
+## Updating objects
+
+`CytoImageList` objects that were generated using the `cytomapper` package
+need to be updated to contain the `channelData` slot. This can be done
+using the `updateObject` function.
+
+```{r updateObject}
+pancreasSCE <- updateObject(pancreasSCE)
+```
+
 # Session info {.unnumbered}
 
 ```{r sessionInfo, echo=FALSE}

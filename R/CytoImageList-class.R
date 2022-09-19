@@ -11,7 +11,7 @@ setClass(
     contains = "SimpleList",
     prototype = prototype(
     int_metadata = list(
-        version = packageVersion("cytomapper")),
+        version = packageVersion("CytoImageList")),
     elementType = "Image_OR_DelayedArray"
     )
 )
@@ -64,6 +64,12 @@ S4Vectors:::setValidity2(Class = "CytoImageList", .ImageList_validity)
         length(unique(channelNames(object))) < length(channelNames(object))) {
         msg <- c(msg, paste("Only unique channels",
                             "allowed in a CytoImageList object.\n"))
+    }
+    
+    # Check if channelNames and rownames(channelData) match
+    if (!is.null(channelNames(object)) && 
+        !identical(channelNames(object), rownames(channelData(object)))) {
+        msg <- c(msg, paste("'channelNames' and 'channelData' do not match.\n"))
     }
     
     # Check if int_metadata contains the version slot
