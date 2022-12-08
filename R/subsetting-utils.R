@@ -148,7 +148,7 @@
 #' getChannels,CytoImageList-method
 #' setChannels<-,CytoImageList-method
 #' [<-,CytoImageList,ANY,ANY,CytoImageList-method
-#' [[<-,CytoImageList,ANY,ANY-method
+#' [[<-,CytoImageList,ANY,ANY,CytoImageList-method
 #'
 #' @docType methods
 #'
@@ -328,7 +328,7 @@ setReplaceMethod("[",
 #' @export
 #' @importFrom methods callNextMethod as validObject
 setReplaceMethod("[[",
-    signature = c("CytoImageList", "ANY", "ANY"),
+    signature = c("CytoImageList", "ANY", "ANY", "CytoImageList"),
     definition = function(x, i, j, ..., value){
         .Object <- callNextMethod()
         .Object <- as(.Object, "CytoImageList")

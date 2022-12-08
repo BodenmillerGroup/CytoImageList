@@ -13,7 +13,7 @@
 \alias{getChannels,CytoImageList-method}
 \alias{setChannels<-,CytoImageList-method}
 \alias{[<-,CytoImageList,ANY,ANY,CytoImageList-method}
-\alias{[[<-,CytoImageList,ANY,ANY-method}
+\alias{[[<-,CytoImageList,ANY,ANY,CytoImageList-method}
 \title{General subsetting methods for CytoImageList objects}
 \arguments{
 \item{x, y}{\code{CytoImageList} objects}

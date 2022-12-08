@@ -6,6 +6,8 @@
 #' \code{\linkS4class{HDF5Array}} objects.
 #'
 #' @param ... A list of images (or coercible to a list) or individual images
+#' @param channelData a DataFrame containing meta information per channel. 
+#' The number of rows need to match the number of channels.
 #' @param on_disk Logical indicating if images in form of
 #' \linkS4class{HDF5Array} objects (as .h5 files) should be stored on disk
 #' rather than in memory.
@@ -195,15 +197,15 @@ CytoImageList <- function(..., channelData = NULL,
         } else {
             cur_channelNames <- dimnames(args[[1]])[[3]]
         }
-        channelData <- new("DFrame", nrows=nc)
+        channelData <- new2("DFrame", nrows=nc)
         if (exists("cur_channelNames")) {
             rownames(channelData) <- cur_channelNames
         }
     }
     
-    x <- S4Vectors::new2("CytoImageList", 
-                         listData = args,
-                         channelData = channelData)
+    x <- new2("CytoImageList", 
+              listData = args,
+              channelData = channelData)
     
     # Store metadata again
     if (exists("cur_meta") && !is.null(cur_meta)) {
