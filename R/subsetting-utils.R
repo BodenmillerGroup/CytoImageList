@@ -93,44 +93,43 @@
 #' @return A CytoImageList object
 #'
 #' @examples
-#' library(cytomapper)
-#' data("pancreasImages")
+#' CIL <- exampleCIL()
 #'
 #' # Get images
-#' getImages(pancreasImages, 1)
-#' getImages(pancreasImages, "E34_imc")
-#' getImages(pancreasImages, 1:2)
-#' getImages(pancreasImages, c("E34_imc", "G01_imc"))
-#' getImages(pancreasImages, grepl("E34_imc", names(pancreasImages)))
+#' getImages(CIL, 1)
+#' getImages(CIL, "image1")
+#' getImages(CIL, 1:2)
+#' getImages(CIL, c("image1", "image2"))
+#' getImages(CIL, grepl("image1", names(CIL)))
 #'
 #' # Set images
-#' setImages(pancreasImages, 1) <- pancreasImages[1]
-#' setImages(pancreasImages, "J02_imc") <- pancreasImages[1]
-#' setImages(pancreasImages, "J02_imc") <- NULL
+#' setImages(CIL, 1) <- CIL[1]
+#' setImages(CIL, "image1") <- CIL[1]
+#' setImages(CIL, "image1") <- NULL
 #'
 #' # Get channels
-#' getChannels(pancreasImages, 1)
-#' getChannels(pancreasImages, "CD99")
-#' getChannels(pancreasImages, c("CD99", "PIN"))
+#' getChannels(CIL, 1)
+#' getChannels(CIL, "ch1")
+#' getChannels(CIL, c("ch1", "ch2"))
 #'
 #' # Set channels
-#' channel1 <- getChannels(pancreasImages, 1)
-#' setChannels(pancreasImages, 1) <- channel1
-#' channelPIN <- getChannels(pancreasImages, "PIN")
-#' setChannels(pancreasImages, "CD8a") <- channelPIN
-#' setChannels(pancreasImages, "CD8a") <- NULL
+#' channel1 <- getChannels(CIL, 1)
+#' setChannels(CIL, 1) <- channel1
+#' channel1 <- getChannels(CIL, "ch1")
+#' setChannels(CIL, "ch2") <- channel1
+#' setChannels(CIL, "ch2") <- NULL
 #'
 #' # Merge images
-#' data("pancreasImages")
-#' c(pancreasImages[c(1,3)], pancreasImages[2])
+#' CIL <- exampleCIL()
+#' c(CIL[c(1,3)], CIL[2])
 #'
 #' # Merge channels
-#' channel12 <- getChannels(pancreasImages, c(1,2))
-#' channel34 <- getChannels(pancreasImages, c(3,4))
+#' channel12 <- getChannels(CIL, c(1,2))
+#' channel34 <- getChannels(CIL, c(3,4))
 #' mergeChannels(channel12, channel34)
 #' 
 #' # Merge channels on disk
-#' cur_images <- CytoImageList(pancreasImages,
+#' cur_images <- CytoImageList(CIL,
 #'                      on_disk = TRUE, 
 #'                      h5FilesPath = HDF5Array::getHDF5DumpDir())
 #' channel12 <- getChannels(cur_images, c(1,2))
@@ -357,6 +356,8 @@ mergeChannels <- function(x, y, h5FilesPath = NULL){
              "'y' needs to contain the same class objects as 'x'")
     }
 
+    channelData_x <- channelData(x)
+    channelData_y <- channelData(y)
     
     if (is(x[[1]], "Image")) {
         x <- S4Vectors::mendoapply(function(k, u){
@@ -388,6 +389,9 @@ mergeChannels <- function(x, y, h5FilesPath = NULL){
     
         }, names(x), x, y, SIMPLIFY = FALSE)
     }
+    
+    channelData(x) <- rbind(channelData_x,
+                            channelData_y)
         
     validObject(x)
 

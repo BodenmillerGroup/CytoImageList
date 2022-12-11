@@ -31,10 +31,10 @@
         }
     }
     
-    # Check that channelData matc
+    # Check that channelData match
     if (is(value, "CytoImageList") && 
         !is.null(channelData(value)) &&
-        identical(channelData(value), channelData(x))) {
+        !identical(channelData(value), channelData(x))) {
         stop("channelData needs to match between 'x' and 'value'")
     }
 }

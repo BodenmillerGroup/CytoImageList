@@ -21,10 +21,9 @@ adjusting missing slots.
 #TODO
 }
 \examples{
-library(cytomapper)
-data("pancreasImages")
+CIL <- exampleCIL()
 
-pancreasImages <- updateVersion(pancreasImages)
+CIL <- updateObject(CIL)
 
 }
 \author{

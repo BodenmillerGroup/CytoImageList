@@ -47,20 +47,19 @@
 #' }
 #'
 #' @examples
-#' library(cytomapper)
-#' data("pancreasImages")
+#' CIL <- exampleCIL()
 #'
 #' # Get channel and image names
-#' channelNames(pancreasImages)
-#' names(pancreasImages)
+#' channelNames(CIL)
+#' names(CIL)
 #'
 #' # Set channel and image names
-#' channelNames(pancreasImages) <- paste0("marker", 1:5)
-#' names(pancreasImages) <- paste0("image", 1:3)
+#' channelNames(CIL) <- paste0("marker", 1:5)
+#' names(CIL) <- paste0("image", 1:3)
 #' 
 #' # Set and get channel metadata
-#' channelData(pancreasImages) <- DataFrame(channel = paste0("channel", 1:5))
-#' channelData(pancreasImages)
+#' channelData(CIL) <- S4Vectors::DataFrame(channel = paste0("channel", 1:5))
+#' channelData(CIL)
 #'
 #' @aliases
 #' channelNames channelNames<-
@@ -133,7 +132,7 @@ setReplaceMethod("channelNames",
         })
     }
         
-    rownames(channelData(x)) <- as.character(value)
+    rownames(channelData(x)) <- value
 
     validObject(x)
 
@@ -179,11 +178,10 @@ setReplaceMethod("names",
 #' }
 #'
 #' @examples
-#' library(cytomapper)
-#' data("pancreasImages")
+#' CIL <- exampleCIL()
 #'
-#' channelData(pancreasImages) <- DataFrame(channel = paste0("channel", 1:5))
-#' channelData(pancreasImages)
+#' channelData(CIL) <- S4Vectors::DataFrame(channel = paste0("channel", 1:5))
+#' channelData(CIL)
 #'
 #' @aliases
 #' channelData channelData<-
@@ -204,9 +202,8 @@ setMethod("channelData",
           })
 
 #' @export
-#' @importFrom S4Vectors endoapply
-#' @importFrom EBImage Image
 #' @importFrom methods validObject
+#' @importFrom EBImage numberOfFrames
 setReplaceMethod("channelData",
                  signature = signature(x="CytoImageList"),
                  definition = function(x, value){
@@ -215,7 +212,9 @@ setReplaceMethod("channelData",
                          value <- as(value, "DataFrame")
                      }
                      
-                     if (nrow(value) != dim(x[[1]])[3]) {
+                     nf <- numberOfFrames(as.array(x[[1]]))
+                     
+                     if (nrow(value) != nf) {
                          stop("'nrow(value)' need to match the number of channels.")
                      }    
                      
@@ -242,10 +241,9 @@ setReplaceMethod("channelData",
 #' @return An updated CytoImageList object
 #'
 #' @examples
-#' library(cytomapper)
-#' data("pancreasImages")
+#' CIL <- exampleCIL()
 #' 
-#' pancreasImages <- updateVersion(pancreasImages)
+#' CIL <- updateObject(CIL)
 #'
 #' @author Nils Eling (\email{nils.eling@@dqbm.uzh.ch})
 #'
@@ -294,10 +292,9 @@ setMethod("updateObject", "CytoImageList", function(object) {
 #' @return A CytoImageList object
 #'
 #' @examples
-#' library(cytomapper)
-#' data("pancreasImages")
+#' CIL <- exampleCIL()
 #' 
-#' int_metadata(pancreasImages) 
+#' int_metadata(CIL) 
 #'
 #' @author Nils Eling (\email{nils.eling@@dqbm.uzh.ch})
 #'
@@ -327,3 +324,47 @@ setReplaceMethod("int_metadata", "CytoImageList", function(x, value) {
     
     return(x)
 })
+
+#' @title Create an example CytoImageList object
+#'
+#' @description
+#' Creates an example CytoImageList object storing three images with five 
+#' channels.
+#'
+#' @return A CytoImageList object
+#'
+#' @examples
+#' CIL <- exampleCIL()
+#' 
+#' CIL
+#'
+#' @author Nils Eling (\email{nils.eling@@dqbm.uzh.ch})
+#'
+#' @name exampleCIL
+#' 
+#' @export
+#' 
+#' @docType methods
+#' @importFrom EBImage readImage
+#' @importFrom S4Vectors DataFrame mcols
+exampleCIL <- function(){
+    image1 <- readImage(system.file("extdata/E34_imc.tiff", 
+                                    package = "CytoImageList"))
+    image2 <- readImage(system.file("extdata/G01_imc.tiff", 
+                                    package = "CytoImageList"))
+    image3 <- readImage(system.file("extdata/J02_imc.tiff", 
+                                    package = "CytoImageList"))
+
+    out <- CytoImageList(image1 = image1, image2 = image2, image3 = image3)
+    
+    channelNames(out) <- c("ch1", "ch2", "ch3", "ch4", "ch5")
+    
+    mcols(out) <- DataFrame(ImageNb = c(1, 2, 3),
+                            ImageName = c("E34", "G01", "J02"))
+    
+    channelData(out) <- DataFrame(ChannelNb = c(1, 2, 3, 4, 5),
+                                  ChannelName = c("ch1", "ch2", "ch3", "ch4", "ch5"))
+    
+    return(out)
+    }
+

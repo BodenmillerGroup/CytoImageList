@@ -134,6 +134,8 @@ object these are image-specific metadata --- are saved in the `elementMetadata`
 slot. This slot can be accessed via the `mcols()` function:
 
 ```{r mcols}
+library(S4Vectors)
+
 mcols(CIL)
 mcols(CIL)$PatientID <- c("Patient1", "Patient2")
 mcols(CIL)
@@ -196,11 +198,11 @@ This functionality is provided via the `getChannels` and `setChannels`
 functions:
 
 ```{r get-set-channels}
-cur_channel <- getChannels(CIL, "H3")
+cur_channel <- getChannels(CIL, "1")
 cur_channel
-channelNames(cur_channel) <- "New_H3"
-setChannels(pancreasImages, 1) <- cur_channel
-pancreasImages
+channelNames(cur_channel) <- "New_1"
+setChannels(CIL, 1) <- cur_channel
+CIL
 ```
 
 The `setChannels` function does not allow combining and adding new channels. For
@@ -213,18 +215,18 @@ Channel names can be obtained and replaced using the `channelNames` getter and
 setter function:
 
 ```{r channelnames}
-channelNames(pancreasImages)
-channelNames(pancreasImages) <- c("ch1", "ch2", "ch3", "ch4", "ch5")
-pancreasImages
+channelNames(CIL)
+channelNames(CIL) <- c("ch1", "ch2", "ch3", "ch4", "ch5")
+CIL
 ```
 
 Furthermore, channels can be merged using the `mergeChannels` function:
 
 ```{r mergechannels}
-cur_channels <- getChannels(pancreasImages, 1:2)
+cur_channels <- getChannels(CIL, 1:2)
 channelNames(cur_channels) <- c("new_ch1", "new_ch2")
-pancreasImages <- mergeChannels(pancreasImages, cur_channels)
-pancreasImages
+CIL <- mergeChannels(CIL, cur_channels)
+CIL
 ```
 
 ## Looping
@@ -239,10 +241,10 @@ This allows the user to apply all functions provided by the
 the `CytoImageList` object:
 
 ```{r endoapply-example}
-data("pancreasImages")
+CIL <- exampleCIL()
 
 # Performing a gaussian blur
-pancreasImages <- endoapply(pancreasImages, gblur, sigma = 1)
+CIL <- endoapply(CIL, gblur, sigma = 1)
 ```
 
 ## Storing images on disk
@@ -265,7 +267,7 @@ need to be updated to contain the `channelData` slot. This can be done
 using the `updateObject` function.
 
 ```{r updateObject}
-pancreasSCE <- updateObject(pancreasSCE)
+CIL <- updateObject(CIL)
 ```
 
 # Session info {.unnumbered}

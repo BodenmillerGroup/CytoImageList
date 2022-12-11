@@ -24,11 +24,10 @@ coercible to a \code{DataFrame}.}
 }
 }
 \examples{
-library(cytomapper)
-data("pancreasImages")
+CIL <- exampleCIL()
 
-channelData(pancreasImages) <- DataFrame(channel = paste0("channel", 1:5))
-channelData(pancreasImages)
+channelData(CIL) <- S4Vectors::DataFrame(channel = paste0("channel", 1:5))
+channelData(CIL)
 
 }
 \author{

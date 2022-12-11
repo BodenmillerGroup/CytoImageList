@@ -24,10 +24,9 @@ internal metadata of \code{x}}
 }
 }
 \examples{
-library(cytomapper)
-data("pancreasImages")
+CIL <- exampleCIL()
 
-int_metadata(pancreasImages) 
+int_metadata(CIL) 
 
 }
 \author{

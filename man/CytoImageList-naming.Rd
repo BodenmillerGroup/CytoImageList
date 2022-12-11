@@ -60,20 +60,19 @@ length as \code{x}}
 }
 
 \examples{
-library(cytomapper)
-data("pancreasImages")
+CIL <- exampleCIL()
 
 # Get channel and image names
-channelNames(pancreasImages)
-names(pancreasImages)
+channelNames(CIL)
+names(CIL)
 
 # Set channel and image names
-channelNames(pancreasImages) <- paste0("marker", 1:5)
-names(pancreasImages) <- paste0("image", 1:3)
+channelNames(CIL) <- paste0("marker", 1:5)
+names(CIL) <- paste0("image", 1:3)
 
 # Set and get channel metadata
-channelData(pancreasImages) <- DataFrame(channel = paste0("channel", 1:5))
-channelData(pancreasImages)
+channelData(CIL) <- S4Vectors::DataFrame(channel = paste0("channel", 1:5))
+channelData(CIL)
 
 }
 \author{

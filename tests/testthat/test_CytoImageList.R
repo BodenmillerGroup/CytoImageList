@@ -1,5 +1,5 @@
 test_that("Images can be loaded into CytoImageList object.", {
-  files <- list.files(system.file("extdata", package = "cytomapper"),
+  files <- list.files(system.file("extdata", package = "CytoImageList"),
              pattern = "imc.tiff", full.names = TRUE)
 
   # Should work
@@ -22,21 +22,12 @@ test_that("Images can be loaded into CytoImageList object.", {
 })
 
 test_that("Show function works.", {
-    library(cytomapper)
-    data(pancreasImages)
+    CIL <- exampleCIL()
     
-    test <- capture.output(show(pancreasImages))
+    test <- capture.output(show(CIL))
     expect_length(test, 4)
     expect_equal(test[1], "CytoImageList containing 3 image(s)")
-    expect_equal(test[2], "names(3): E34_imc G01_imc J02_imc ")
+    expect_equal(test[2], "names(3): image1 image2 image3 ")
     expect_equal(test[3], "Each image contains 5 channel(s)")
-    expect_equal(test[4], "channelNames(5): H3 CD99 PIN CD8a CDH ")
-    
-    data(pancreasMasks)
-    
-    test <- capture.output(show(pancreasMasks))
-    expect_length(test, 3)
-    expect_equal(test[1], "CytoImageList containing 3 image(s)")
-    expect_equal(test[2], "names(3): E34_mask G01_mask J02_mask ")
-    expect_equal(test[3], "Each image contains 1 channel")
+    expect_equal(test[4], "channelNames(5): ch1 ch2 ch3 ch4 ch5 ")
 })
