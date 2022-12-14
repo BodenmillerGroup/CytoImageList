@@ -11,6 +11,7 @@
 \usage{
 CytoImageList(
   ...,
+  channelData = NULL,
   on_disk = FALSE,
   h5FilesPath = NULL,
   BPPARAM = SerialParam()
@@ -18,6 +19,9 @@ CytoImageList(
 }
 \arguments{
 \item{...}{A list of images (or coercible to a list) or individual images}
+
+\item{channelData}{a DataFrame containing meta information per channel. 
+The number of rows need to match the number of channels.}
 
 \item{on_disk}{Logical indicating if images in form of
 \linkS4class{HDF5Array} objects (as .h5 files) should be stored on disk

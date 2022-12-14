@@ -1,7 +1,7 @@
 ---
 title: "An S4 class for handling multi-channel images"
 date: "`r BiocStyle::doc_date()`"
-package: "`r BiocStyle::pkg_ver('cytomapper')`"
+package: "`r BiocStyle::pkg_ver('CytoImageList')`"
 author:
 - name: Nils Eling
   affiliation: 
@@ -67,53 +67,6 @@ for on-disk handling of images and facilitating the generation of mutli-channel
 composite images by using, for example, the `r BiocStyle::Biocpkg("cytomapper")`
 package..
 
-## The toy dataset {#ToyData}
-
-For simplicity and as an example, we use toy data provided by the `r
-BiocStyle::Biocpkg("cytomapper")` package  to highlight the use of the
-`CytoImageList` S4 class.. The toy dataset contains 3 images of $100\mu{m}$ x
-$100\mu{m}$ dimensions (100 x 100 pixels). The dataset contains 362 segmented
-cells and the expression values for 5 proteins: H3, CD99, PIN, CD8a, and CDH It
-represents a small subset of the data presented in [A Map of Human Type 1
-Diabetes Progression by Imaging Mass
-Cytometry](https://www.cell.com/cell-metabolism/fulltext/S1550-4131(18)30691-0?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS1550413118306910%3Fshowall%3Dtrue).
-
-This dataset was generated using imaging mass cytometry [@giesen2014imc]. Raw
-output files (in .mcd format) were processed using the [IMC segmentation
-pipeline](https://github.com/BodenmillerGroup/ImcSegmentationPipeline), which
-produces tiff-stacks containing the pixel-level information of all measured
-markers, segmentation masks that contain the cells' object ids as well as cell-
-and image-specific measurements. 
-
-Pixel-level intensities for all 5 markers (5 channels) are stored in the
-`pancreasImages` object. Entries to the `CytoImageList` object and the rownames
-of `elementMetadata` match: E34_imc, G01_imc, and J02_imc. The `elementMetadata` slot
-(accessible via the `mcols()` function) contains the image identifiers.
-
-```{r}
-library(cytomapper)
-data(pancreasImages)
-data(pancreasMasks)
-```
-
-```{r pancreasImages}
-mcols(pancreasImages)
-channelNames(pancreasImages)
-imageData(pancreasImages[[1]])[1:15,1:5,1]
-```
-
-The corresponding segmentation masks are stored in the `pancreasMasks` object
-and can be read in from tiff images containing the segmentation masks (see next
-section).
-Segmentation masks are defined as one-channel images containing integer values,
-which represent the cells' ids or 0 (background).
-
-```{r pancreasMasks}
-pancreasMasks
-mcols(pancreasMasks)
-imageData(pancreasMasks[[1]])[1:15,1:5]
-```
-
 # The CytoImageList object {#CytoImageList}
 
 The `CytoImageList` S4 class, which inherits from the [`SimpleList`
@@ -143,7 +96,7 @@ function:
 ```{r CIL-creation-1}
 u <- array(rbinom(500, 10, 0.5), dim = c(10, 10, 5))
 v <- array(rbinom(500, 10, 0.5), dim = c(10, 10, 5))
-CIL <- CytoImageList::CytoImageList(image1 = Image(u), image2 = Image(v))
+CIL <- CytoImageList(image1 = Image(u), image2 = Image(v))
 CIL
 CIL$image1
 ```
@@ -156,9 +109,21 @@ library(EBImage)
 u <- readImage(system.file("extdata/E34_imc.tiff", package = "CytoImageList"))
 v <- readImage(system.file("extdata/G01_imc.tiff", package = "CytoImageList"))
 
-CIL <- CytoImageList::CytoImageList(image1 = u, image2 = v)
+CIL <- CytoImageList(image1 = u, image2 = v)
 CIL
 CIL$image1
+```
+
+## Setting channel names
+
+```{r channelNames}
+channelNames(CIL)
+```
+
+## Setting channel data
+
+```{r channelData}
+
 ```
 
 ## Accessors {#accessors}
@@ -169,16 +134,18 @@ object these are image-specific metadata --- are saved in the `elementMetadata`
 slot. This slot can be accessed via the `mcols()` function:
 
 ```{r mcols}
-mcols(pancreasImages)
-mcols(pancreasImages)$PatientID <- c("Patient1", "Patient2", "Patient3")
-mcols(pancreasImages)
+library(S4Vectors)
+
+mcols(CIL)
+mcols(CIL)$PatientID <- c("Patient1", "Patient2")
+mcols(CIL)
 ```
 
 Subsetting a `CytoImageList` object works similar to a `SimpleList` object:
 
 ```{r subsetting-SimpleList}
-pancreasImages[1]
-pancreasImages[[1]]
+CIL[1]
+CIL[[1]]
 ```
 
 However, to facilitate subsetting and making sure that entry names are
@@ -191,11 +158,11 @@ Individual or multiple entries in a `CytoImageList` object can be obtained or
 replaced using the `getImages` and `setImages` functions, respectively.
 
 ```{r get-set-images}
-cur_image <- getImages(pancreasImages, "E34_imc")
+cur_image <- getImages(CIL, "image1")
 cur_image
-setImages(pancreasImages, "New_image") <- cur_image
-pancreasImages
-mcols(pancreasImages)
+setImages(CIL, "New_image") <- cur_image
+CIL
+mcols(CIL)
 ```
 
 The `setImages` function ensures that names are transferred from one to the other
@@ -203,25 +170,25 @@ object along the assignment operator:
 
 ```{r set-images}
 names(cur_image) <- "Replacement"
-setImages(pancreasImages, 2) <- cur_image
-pancreasImages
-mcols(pancreasImages)
+setImages(CIL, 2) <- cur_image
+CIL
+mcols(CIL)
 ```
 
 However, if the image to replace is called by name, only the image and
 associated metadata is replaced:
 
 ```{r set-images-2}
-setImages(pancreasImages, "J02_imc") <- cur_image
-pancreasImages
-mcols(pancreasImages)
+setImages(CIL, "image2") <- cur_image
+CIL
+mcols(CIL)
 ```
 
 Images can be deleted by setting the entry to `NULL`:
 
 ```{r deleting-images}
-setImages(pancreasImages, c("Replacement", "New_image")) <- NULL
-pancreasImages
+setImages(CIL, c("Replacement", "New_image")) <- NULL
+CIL
 ```
 
 ### Getting and setting channels
@@ -231,11 +198,11 @@ This functionality is provided via the `getChannels` and `setChannels`
 functions:
 
 ```{r get-set-channels}
-cur_channel <- getChannels(pancreasImages, "H3")
+cur_channel <- getChannels(CIL, "1")
 cur_channel
-channelNames(cur_channel) <- "New_H3"
-setChannels(pancreasImages, 1) <- cur_channel
-pancreasImages
+channelNames(cur_channel) <- "New_1"
+setChannels(CIL, 1) <- cur_channel
+CIL
 ```
 
 The `setChannels` function does not allow combining and adding new channels. For
@@ -248,18 +215,18 @@ Channel names can be obtained and replaced using the `channelNames` getter and
 setter function:
 
 ```{r channelnames}
-channelNames(pancreasImages)
-channelNames(pancreasImages) <- c("ch1", "ch2", "ch3", "ch4", "ch5")
-pancreasImages
+channelNames(CIL)
+channelNames(CIL) <- c("ch1", "ch2", "ch3", "ch4", "ch5")
+CIL
 ```
 
 Furthermore, channels can be merged using the `mergeChannels` function:
 
 ```{r mergechannels}
-cur_channels <- getChannels(pancreasImages, 1:2)
+cur_channels <- getChannels(CIL, 1:2)
 channelNames(cur_channels) <- c("new_ch1", "new_ch2")
-pancreasImages <- mergeChannels(pancreasImages, cur_channels)
-pancreasImages
+CIL <- mergeChannels(CIL, cur_channels)
+CIL
 ```
 
 ## Looping
@@ -274,10 +241,10 @@ This allows the user to apply all functions provided by the
 the `CytoImageList` object:
 
 ```{r endoapply-example}
-data("pancreasImages")
+CIL <- exampleCIL()
 
 # Performing a gaussian blur
-pancreasImages <- endoapply(pancreasImages, gblur, sigma = 1)
+CIL <- endoapply(CIL, gblur, sigma = 1)
 ```
 
 ## Storing images on disk
@@ -291,6 +258,16 @@ CLI <- CytoImageList(image1 = u, image2 = v,
                       h5FilesPath = HDF5Array::getHDF5DumpDir())
 CLI
 CLI$image1
+```
+
+## Updating objects
+
+`CytoImageList` objects that were generated using the `cytomapper` package
+need to be updated to contain the `channelData` slot. This can be done
+using the `updateObject` function.
+
+```{r updateObject}
+CIL <- updateObject(CIL)
 ```
 
 # Session info {.unnumbered}
